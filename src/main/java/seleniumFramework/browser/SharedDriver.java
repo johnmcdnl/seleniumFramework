@@ -28,7 +28,7 @@ public class SharedDriver extends EventFiringWebDriver {
 	return SHARED_DRIVER;
     }
 
-    protected static WebDriver getSharedDriver() {
+    private static EventFiringWebDriver getSharedDriver() {
 	if (SHARED_DRIVER == null) {
 	    throw new IllegalStateException("SHARED_DRIVER has not been initialised");
 	}
