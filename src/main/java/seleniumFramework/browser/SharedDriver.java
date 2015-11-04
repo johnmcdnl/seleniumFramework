@@ -10,8 +10,8 @@ import org.openqa.selenium.support.events.EventFiringWebDriver;
 import java.util.List;
 import java.util.Set;
 
-public class SharedDriver extends EventFiringWebDriver implements WebDriver {
-    private static WebDriver SHARED_DRIVER = null;
+public class SharedDriver extends EventFiringWebDriver {
+    private static EventFiringWebDriver SHARED_DRIVER = null;
 
     public SharedDriver() {
 	super(getSharedDriver());
@@ -28,7 +28,7 @@ public class SharedDriver extends EventFiringWebDriver implements WebDriver {
 	return SHARED_DRIVER;
     }
 
-    private static WebDriver getSharedDriver() {
+    protected static WebDriver getSharedDriver() {
 	if (SHARED_DRIVER == null) {
 	    throw new IllegalStateException("SHARED_DRIVER has not been initialised");
 	}
@@ -36,16 +36,20 @@ public class SharedDriver extends EventFiringWebDriver implements WebDriver {
     }
 
     private static void createBrowser(Browsers browser) {
+	WebDriver driver;
 	switch (browser) {
 	case FIREFOX:
-	    SHARED_DRIVER = new FirefoxDriver();
+	    driver = new FirefoxDriver();
 	    break;
 	case CHROME:
-	    SHARED_DRIVER = new ChromeDriver();
+	    driver = new ChromeDriver();
 	    break;
 	default:
-	    SHARED_DRIVER = new FirefoxDriver();
+	    driver = new FirefoxDriver();
 	}
+
+	SHARED_DRIVER = new EventFiringWebDriver(driver);
+	SHARED_DRIVER.register(new BrowserListener());
     }
 
     private static final Thread CLOSE_THREAD = new Thread() {

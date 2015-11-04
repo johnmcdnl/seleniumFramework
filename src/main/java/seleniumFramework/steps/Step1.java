@@ -9,7 +9,6 @@ public class Step1 extends BaseSteps {
     @Given("^I go to the selenium homepage$")
     public void i_go_to_the_selenium_homepage() throws Throwable {
 	navigate().to("https://github.com/");
-	// log.info("Current Url is: " + getCurrentUrl());
     }
 
     @When("^I search for \"([^\"]*)\"$")
