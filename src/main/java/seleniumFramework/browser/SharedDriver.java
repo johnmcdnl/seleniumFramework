@@ -13,108 +13,108 @@ import java.util.Set;
 public class SharedDriver extends EventFiringWebDriver implements WebDriver {
 
     public SharedDriver() {
-        super(SHARED_DRIVER);
+	super(SHARED_DRIVER);
     }
 
     public SharedDriver(Browsers browser) {
-        super(getRequiredBrowser(browser));
+	super(getRequiredBrowser(browser));
     }
 
     private static WebDriver getRequiredBrowser(Browsers browser) {
-        if (SHARED_DRIVER == null) {
-            switch (browser) {
-                case FIREFOX:
-                    SHARED_DRIVER = new FirefoxDriver();
-                    break;
-                case CHROME:
-                    SHARED_DRIVER = new ChromeDriver();
-                    break;
-                default:
-                    SHARED_DRIVER = new FirefoxDriver();
-            }
-        }
-        return SHARED_DRIVER;
+	if (SHARED_DRIVER == null) {
+	    switch (browser) {
+	    case FIREFOX:
+		SHARED_DRIVER = new FirefoxDriver();
+		break;
+	    case CHROME:
+		SHARED_DRIVER = new ChromeDriver();
+		break;
+	    default:
+		SHARED_DRIVER = new FirefoxDriver();
+	    }
+	}
+	return SHARED_DRIVER;
     }
 
     public static WebDriver SHARED_DRIVER = null;
 
     private static final Thread CLOSE_THREAD = new Thread() {
-        @Override
-        public void run() {
-            SHARED_DRIVER.close();
-        }
+	@Override
+	public void run() {
+	    SHARED_DRIVER.close();
+	}
     };
 
     static {
-        Runtime.getRuntime().addShutdownHook(CLOSE_THREAD);
+	Runtime.getRuntime().addShutdownHook(CLOSE_THREAD);
     }
 
     @Override
     public void close() {
-        if (Thread.currentThread() != CLOSE_THREAD) {
-            throw new UnsupportedOperationException(".close() is unsupported - driver will close when JVM ends");
-        }
-        super.close();
+	if (Thread.currentThread() != CLOSE_THREAD) {
+	    throw new UnsupportedOperationException(".close() is unsupported - driver will close when JVM ends");
+	}
+	super.close();
     }
 
     @Override
     public void get(String url) {
-        SHARED_DRIVER.get(url);
+	super.get(url);
     }
 
     @Override
     public String getCurrentUrl() {
-        return SHARED_DRIVER.getCurrentUrl();
+	return super.getCurrentUrl();
     }
 
     @Override
     public String getTitle() {
-        return SHARED_DRIVER.getTitle();
+	return super.getTitle();
     }
 
     @Override
     public List<WebElement> findElements(By by) {
-        return SHARED_DRIVER.findElements(by);
+	return super.findElements(by);
     }
 
     @Override
     public WebElement findElement(By by) {
-        return SHARED_DRIVER.findElement(by);
+	return super.findElement(by);
     }
 
     @Override
     public String getPageSource() {
-        return SHARED_DRIVER.getPageSource();
+	return super.getPageSource();
     }
 
     @Override
     public void quit() {
-        SHARED_DRIVER.quit();
+	super.quit();
     }
 
     @Override
     public Set<String> getWindowHandles() {
-        return SHARED_DRIVER.getWindowHandles();
+	return super.getWindowHandles();
     }
 
     @Override
     public String getWindowHandle() {
-        return SHARED_DRIVER.getWindowHandle();
+	return super.getWindowHandle();
     }
 
     @Override
     public TargetLocator switchTo() {
-        return SHARED_DRIVER.switchTo();
+	return super.switchTo();
     }
 
     @Override
     public Navigation navigate() {
-        return SHARED_DRIVER.navigate();
+	return super.navigate();
     }
 
     @Override
     public Options manage() {
-        return SHARED_DRIVER.manage();
+	return super.manage();
     }
 
 }
