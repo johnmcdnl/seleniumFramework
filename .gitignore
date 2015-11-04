@@ -1,0 +1,6 @@
+/target/
+/.settings
+/.project
+/.idea
+.classpath
+seleniumFramework.iml
