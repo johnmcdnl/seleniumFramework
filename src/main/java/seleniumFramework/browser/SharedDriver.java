@@ -11,32 +11,42 @@ import java.util.List;
 import java.util.Set;
 
 public class SharedDriver extends EventFiringWebDriver implements WebDriver {
+    private static WebDriver SHARED_DRIVER = null;
 
     public SharedDriver() {
-	super(SHARED_DRIVER);
+	super(getSharedDriver());
     }
 
     public SharedDriver(Browsers browser) {
-	super(getRequiredBrowser(browser));
+	super(setSharedDriver(browser));
     }
 
-    private static WebDriver getRequiredBrowser(Browsers browser) {
+    private static WebDriver setSharedDriver(Browsers browser) {
 	if (SHARED_DRIVER == null) {
-	    switch (browser) {
-	    case FIREFOX:
-		SHARED_DRIVER = new FirefoxDriver();
-		break;
-	    case CHROME:
-		SHARED_DRIVER = new ChromeDriver();
-		break;
-	    default:
-		SHARED_DRIVER = new FirefoxDriver();
-	    }
+	    createBrowser(browser);
 	}
 	return SHARED_DRIVER;
     }
 
-    public static WebDriver SHARED_DRIVER = null;
+    private static WebDriver getSharedDriver() {
+	if (SHARED_DRIVER == null) {
+	    throw new IllegalStateException("SHARED_DRIVER has not been initialised");
+	}
+	return SHARED_DRIVER;
+    }
+
+    private static void createBrowser(Browsers browser) {
+	switch (browser) {
+	case FIREFOX:
+	    SHARED_DRIVER = new FirefoxDriver();
+	    break;
+	case CHROME:
+	    SHARED_DRIVER = new ChromeDriver();
+	    break;
+	default:
+	    SHARED_DRIVER = new FirefoxDriver();
+	}
+    }
 
     private static final Thread CLOSE_THREAD = new Thread() {
 	@Override
