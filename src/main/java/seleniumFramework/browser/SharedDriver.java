@@ -49,7 +49,7 @@ public class SharedDriver extends EventFiringWebDriver {
 	}
 
 	SHARED_DRIVER = new EventFiringWebDriver(driver);
-	SHARED_DRIVER.register(new BrowserListener());
+	SHARED_DRIVER.register(new EventListener());
     }
 
     private static final Thread CLOSE_THREAD = new Thread() {
