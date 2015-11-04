@@ -8,7 +8,6 @@ public class Step2 extends BaseSteps {
 
     @Then("^the page title is \"([^\"]*)\"$")
     public void thePageTitleIs(String expectedTitle) throws Throwable {
-	log.info(expectedTitle);
 	Assert.assertEquals(expectedTitle, getTitle());
     }
 }
